@@ -1,11 +1,50 @@
-import { Link } from 'react-router-dom';
+import { useContext } from "react"
+import { Link } from "react-router-dom"
+import { ModalContext } from "../../context/ModalProvider"
+import { AuthContext } from "../../context/AuthProvider"
+import Button from "react-bootstrap/Button"
+import Container from "react-bootstrap/Container"
+import Form from "react-bootstrap/Form"
+import Nav from "react-bootstrap/Nav"
+import Navbar from "react-bootstrap/Navbar"
+import NavDropdown from "react-bootstrap/NavDropdown"
 
 export default function NavBar() {
+  const { openSearchModal } = useContext(ModalContext)
+  const { handleSignOut } = useContext(AuthContext)
   return (
-    <nav>
-      <Link to="/orders">Order History</Link>
-      &nbsp; | &nbsp;
-      <Link to="/orders/new">New Order</Link>
-    </nav>
-  );
+    <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand as={Link} to="/home">
+          MuView
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbarScroll" />
+        <Navbar.Collapse id="navbarScroll">
+          <Nav
+            className="me-auto my-2 my-lg-0"
+            style={{ maxHeight: "100px" }}
+            navbarScroll
+          >
+            <Nav.Link as={Link} to="/albums">
+              Albums
+            </Nav.Link>
+            <Nav.Link as={Link} to="/profile">
+              {" "}
+              Profile
+            </Nav.Link>
+            <Nav.Link onClick={handleSignOut}>Logout</Nav.Link>
+          </Nav>
+          <Form className="d-flex">
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="me-2"
+              aria-label="Search"
+            />
+            <Button variant="outline-success">Search</Button>
+          </Form>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  )
 }
