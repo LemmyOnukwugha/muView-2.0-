@@ -55,6 +55,16 @@ const Profile = () => {
         userDetails?.reviews?.map((review, index) => (
           <Card key={index} className="mb-2" border="light">
             <Card.Header className="d-flex justify-content-between">
+              <p>
+                {" "}
+                <span className="fw-bold fs-4">
+                  {" "}
+                  {review?.album.Title}
+                </span>{" "}
+                <span className="fst-italic">by</span>{" "}
+                <span className="text-muted"> {review?.album.Artist}</span>
+              </p>
+              <br />
               <span className="fs-6 text-muted" style={{ fontSize: 8 }}>
                 created on: {new Date(review?.createdAt).toDateString()}
               </span>
