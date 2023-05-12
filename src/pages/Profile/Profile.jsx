@@ -29,9 +29,11 @@ const Profile = () => {
       setError(null)
       await reqMethod(`/api/reviews/${review._id}`, "DELETE")
       setLoading(false)
+      toast.success("Review deleted")
       handleFetchReview()
     } catch (error) {
       setLoading(false)
+      toast.error("Failed to delete review")
       setError(error)
     }
   }
