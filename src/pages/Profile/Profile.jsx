@@ -4,6 +4,7 @@ import { AuthContext } from "../../context/AuthProvider"
 import { Button, Card, Spinner } from "react-bootstrap"
 import Loading from "../../components/Loading/Loading"
 import { toast } from "react-toastify"
+import NavBar from "../../components/NavBar/NavBar"
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState({})
@@ -43,60 +44,66 @@ const Profile = () => {
       </p>
     )
   return (
-    <div className="container  ">
-      <h2 className="mt-4">Profile Details</h2>
-      <Card className="py-2 px-4 text-start mx-auto" style={{ maxWidth: 800 }}>
-        <div>Name: {userDetails?.name}</div>
-        <div>Email: {userDetails?.email}</div>
-        <div>Role: {userDetails?.role}</div>
-      </Card>
-      <h4 className="mt-4">My Reviews</h4>
-      {userDetails?.reviews?.length === 0 && (
-        <p>You haven't made any reviews yet</p>
-      )}
-      {userDetails?.reviews &&
-        userDetails?.reviews?.length > 0 &&
-        userDetails?.reviews?.map((review, index) => (
-          <Card
-            key={index}
-            className="mb-2 mx-auto"
-            border="light"
-            style={{ maxWidth: 800 }}
-          >
-            <Card.Header className="d-flex justify-content-between">
-              <p>
-                {" "}
-                <span className="fw-bold fs-4">
+    <>
+      <NavBar />
+      <div className="container  ">
+        <h2 className="mt-4">Profile Details</h2>
+        <Card
+          className="py-2 px-4 text-start mx-auto"
+          style={{ maxWidth: 800 }}
+        >
+          <div>Name: {userDetails?.name}</div>
+          <div>Email: {userDetails?.email}</div>
+          <div>Role: {userDetails?.role}</div>
+        </Card>
+        <h4 className="mt-4">My Reviews</h4>
+        {userDetails?.reviews?.length === 0 && (
+          <p>You haven't made any reviews yet</p>
+        )}
+        {userDetails?.reviews &&
+          userDetails?.reviews?.length > 0 &&
+          userDetails?.reviews?.map((review, index) => (
+            <Card
+              key={index}
+              className="mb-2 mx-auto"
+              border="light"
+              style={{ maxWidth: 800 }}
+            >
+              <Card.Header className="d-flex justify-content-between">
+                <p>
                   {" "}
-                  {review?.album.Title}
-                </span>{" "}
-                <span className="fst-italic">by</span>{" "}
-                <span className="text-muted"> {review?.album.Artist}</span>
-              </p>
-              <br />
-              <span className="fs-6 text-muted" style={{ fontSize: 8 }}>
-                created on: {new Date(review?.createdAt).toDateString()}
-              </span>
-              <Button
-                size="sm"
-                variant="dark"
-                onClick={() => {
-                  handleDelete(review)
-                }}
-                disabled={loading}
-              >
-                <span>Delete</span>
-              </Button>
-            </Card.Header>
-            <Card.Body className="text-start">
-              <p> {review?.description}</p>
-              <p className="fs-6 text-muted text-end">
-                Rating: {review?.rating}
-              </p>
-            </Card.Body>
-          </Card>
-        ))}
-    </div>
+                  <span className="fw-bold fs-4">
+                    {" "}
+                    {review?.album.Title}
+                  </span>{" "}
+                  <span className="fst-italic">by</span>{" "}
+                  <span className="text-muted"> {review?.album.Artist}</span>
+                </p>
+                <br />
+                <span className="fs-6 text-muted" style={{ fontSize: 8 }}>
+                  created on: {new Date(review?.createdAt).toDateString()}
+                </span>
+                <Button
+                  size="sm"
+                  variant="dark"
+                  onClick={() => {
+                    handleDelete(review)
+                  }}
+                  disabled={loading}
+                >
+                  <span>Delete</span>
+                </Button>
+              </Card.Header>
+              <Card.Body className="text-start">
+                <p> {review?.description}</p>
+                <p className="fs-6 text-muted text-end">
+                  Rating: {review?.rating}
+                </p>
+              </Card.Body>
+            </Card>
+          ))}
+      </div>
+    </>
   )
 }
 

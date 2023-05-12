@@ -22,7 +22,6 @@ function App() {
     <main className="App">
       {auth.user ? (
         <>
-          <NavBar />
           <Routes>
             {/* Route components in here */}
             <Route path="/home" element={<Home />} />

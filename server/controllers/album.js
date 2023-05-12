@@ -2,13 +2,15 @@ const Album = require("../models/Album")
 const ErrorResponse = require("../util/Errorresponse")
 
 exports.getAlbums = async function (req, res, next) {
-  const { page = 1, limit = 10 } = req.query
+  const { page = 1, limit = 10, q } = req.query
   try {
-    const albums = await Album.find()
+    const albums = await Album.find({ Title: { $regex: q, $options: "i" } })
       .limit(limit * 1)
       .skip((page - 1) * limit)
       .populate("reviews")
-    const count = await Album.countDocuments()
+    const count = await Album.countDocuments({
+      Title: { $regex: q, $options: "i" },
+    })
     res.status(200).json({
       message: "Success",
       data: albums,
