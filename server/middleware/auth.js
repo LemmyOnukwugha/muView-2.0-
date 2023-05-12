@@ -14,11 +14,10 @@ exports.protect = async (req, res, next) => {
     } catch (error) {
       console.log(error)
     }
-    console.log("decode oo", decode)
 
     const user = await User.findById(decode.id)
     req.user = user
-    console.log("user oo", user)
+
     next()
   } catch (error) {
     next(error)
