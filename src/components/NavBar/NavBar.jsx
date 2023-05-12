@@ -1,34 +1,34 @@
-import { useContext, useEffect, useState } from "react"
-import { Link, useLocation } from "react-router-dom"
-import { ModalContext } from "../../context/ModalProvider"
-import { AuthContext } from "../../context/AuthProvider"
-import Button from "react-bootstrap/Button"
-import Container from "react-bootstrap/Container"
-import Form from "react-bootstrap/Form"
-import Nav from "react-bootstrap/Nav"
-import Navbar from "react-bootstrap/Navbar"
-import NavDropdown from "react-bootstrap/NavDropdown"
+import { useContext, useEffect, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { ModalContext } from "../../context/ModalProvider";
+import { AuthContext } from "../../context/AuthProvider";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import Form from "react-bootstrap/Form";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
 export default function NavBar({ onSearch }) {
-  const { openSearchModal } = useContext(ModalContext)
-  const { handleSignOut } = useContext(AuthContext)
-  const [search, setSearch] = useState("")
-  const location = useLocation()
+  const { openSearchModal } = useContext(ModalContext);
+  const { handleSignOut } = useContext(AuthContext);
+  const [search, setSearch] = useState("");
+  const location = useLocation();
 
   useEffect(() => {
     if (search === "" && onSearch) {
-      onSearch("")
+      onSearch("");
     }
-  }, [search])
+  }, [search]);
 
   const handleSubmit = function (e) {
-    e.preventDefault()
-    onSearch(search)
-  }
+    e.preventDefault();
+    onSearch(search);
+  };
   return (
     <Navbar bg="light" expand="lg">
       <Container>
-        <Navbar.Brand as={Link} to="/home">
+        <Navbar.Brand as={Link} to="/">
           MuView
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbarScroll" />
@@ -67,5 +67,5 @@ export default function NavBar({ onSearch }) {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  )
+  );
 }
