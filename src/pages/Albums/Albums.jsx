@@ -6,6 +6,7 @@ import CustomPagination from "../../components/Pagination/Pagination"
 import { reqMethod } from "../../utilities/users-api"
 import Loading from "../../components/Loading/Loading"
 import { ModalContext } from "../../context/ModalProvider"
+import { toast } from "react-toastify"
 
 const Albums = () => {
   const navigate = useNavigate()
@@ -16,6 +17,14 @@ const Albums = () => {
   const { openAlbumModal } = useContext(ModalContext)
 
   useEffect(() => {
+    handleFetch()
+  }, [])
+
+  const handleNavigate = (id) => {
+    navigate(`/album/${id}`)
+  }
+  const handleFetch = () => {
+    setError(null)
     reqMethod("/api/albums", "GET", auth?.user?.token)
       .then((data) => {
         setAlbums(data.data)
@@ -25,10 +34,20 @@ const Albums = () => {
         setError(err)
         setLoading(false)
       })
-  }, [])
-
-  const handleNavigate = (id) => {
-    navigate(`/album/${id}`)
+  }
+  const handleDelete = async (event, id) => {
+    event.stopPropagation()
+    setError(null)
+    try {
+      setLoading(true)
+      await reqMethod(`/api/albums/${id}`, "DELETE", auth?.user?.token)
+      toast.success("Album deleted successfully")
+      handleFetch()
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      toast.error("Error deleting album")
+    }
   }
   if (loading) return <Loading />
   if (error)
@@ -53,6 +72,13 @@ const Albums = () => {
               <Card.Body>
                 <Card.Title>{album.Title}</Card.Title>
                 <Card.Text>Artist: {album.Artist}</Card.Text>
+                <Button
+                  onClick={(event) => handleDelete(event, album._id)}
+                  size="sm"
+                  variant="secondary"
+                >
+                  Delete
+                </Button>
               </Card.Body>
               <Card.Footer>
                 <small className="text-muted">
