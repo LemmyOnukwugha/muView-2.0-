@@ -35,7 +35,10 @@ exports.signin = async function (req, res, next) {
 }
 exports.getMe = async function (req, res, next) {
   try {
-    const user = await User.findById(req.user.id).populate("reviews")
+    const user = await User.findById(req.user.id).populate({
+      path: "reviews",
+      populate: { path: "album" },
+    })
     res.status(200).json({ success: true, user })
   } catch (error) {
     next(error)
