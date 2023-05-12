@@ -1,10 +1,11 @@
 export const reqMethod = async (
   url,
   method,
-  token,
+
   body,
   isFormData = false
 ) => {
+  const token = localStorage.getItem("token")
   const res = await fetch(url, {
     headers: {
       "Content-Type": isFormData ? "mmultipart/form" : "application/json",

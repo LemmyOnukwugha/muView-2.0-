@@ -25,7 +25,7 @@ const AddReviewModal = () => {
       await reqMethod(
         `/api/albums/${payload.albumId}/reviews`,
         "POST",
-        auth?.user.token,
+
         {
           description,
           rating: parseInt(rating),

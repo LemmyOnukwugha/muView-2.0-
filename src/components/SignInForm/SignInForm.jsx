@@ -1,5 +1,7 @@
 import { Component } from "react"
 import { AuthContext } from "../../context/AuthProvider"
+import { reqMethod } from "../../utilities/users-api"
+import { toast } from "react-toastify"
 
 export default class SignInForm extends Component {
   static contextType = AuthContext
@@ -14,22 +16,19 @@ export default class SignInForm extends Component {
     // alert(JSON.stringify(this.state))
     try {
       this.setState({ error: null })
-      const res = await fetch("/api/auth/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: this.state.email,
-          password: this.state.password,
-        }),
+
+      const data = await reqMethod("/api/auth/signin", "POST", {
+        email: this.state.email,
+        password: this.state.password,
       })
-      const data = await res.json()
       console.log(data.token)
+
       const { handleSignIn } = this.context
+      localStorage.setItem("token", data.token)
+      toast.success("Sign in successful")
       handleSignIn({ token: data.token })
     } catch (error) {
-      this.setState({ error: error })
+      toast.error("Error trying to sign in")
     }
   }
 

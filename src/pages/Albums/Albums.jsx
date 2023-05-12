@@ -14,7 +14,7 @@ const Albums = () => {
   const [albums, setAlbums] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  const { auth } = useContext(AuthContext)
+
   const { openAlbumModal } = useContext(ModalContext)
   const [page, setPage] = useState(1)
 
@@ -29,7 +29,7 @@ const Albums = () => {
 
   const handleFetch = (search = "", page = 1) => {
     setError(null)
-    reqMethod(`/api/albums?q=${search}&page=${page}`, "GET", auth?.user?.token)
+    reqMethod(`/api/albums?q=${search}&page=${page}`, "GET")
       .then((data) => {
         setAlbums(data)
         setLoading(false)
@@ -44,7 +44,7 @@ const Albums = () => {
     setError(null)
     try {
       setLoading(true)
-      await reqMethod(`/api/albums/${id}`, "DELETE", auth?.user?.token)
+      await reqMethod(`/api/albums/${id}`, "DELETE")
       toast.success("Album deleted successfully")
       handleFetch()
       setLoading(false)

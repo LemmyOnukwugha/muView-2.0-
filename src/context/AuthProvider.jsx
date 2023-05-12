@@ -21,12 +21,26 @@ const authReducer = (state = initialState, action) => {
   }
 }
 const AuthProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, { user: null })
+  const [state, dispatch] = useReducer(
+    authReducer,
+    {
+      user: null,
+    },
+    () => {
+      const token = localStorage.getItem("token")
+      return token
+        ? { user: token }
+        : {
+            user: null,
+          }
+    }
+  )
 
   const handleSignIn = (user) => {
     dispatch({ type: "SIGN_IN", payload: user })
   }
   const handleSignOut = () => {
+    localStorage.removeItem("token")
     dispatch({ type: "SIGN_OUT" })
   }
   return (

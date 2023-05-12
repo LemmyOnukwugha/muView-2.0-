@@ -14,8 +14,6 @@ const AlbumModal = () => {
     Genre: "",
   })
 
-  const { auth } = useContext(AuthContext)
-
   const handleChange = (event) => {
     setData((prev) => ({
       ...prev,
@@ -25,7 +23,7 @@ const AlbumModal = () => {
   const handleSubmit = async () => {
     try {
       setLoading(true)
-      await reqMethod("/api/albums", "POST", auth?.user?.token, {
+      await reqMethod("/api/albums", "POST", {
         ...data,
         Release: parseInt(data.Release),
       })

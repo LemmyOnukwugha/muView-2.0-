@@ -14,7 +14,7 @@ export default function NavBar({ onSearch }) {
   const { handleSignOut } = useContext(AuthContext)
   const [search, setSearch] = useState("")
   const location = useLocation()
-  console.log(location)
+
   useEffect(() => {
     if (search === "" && onSearch) {
       onSearch("")

@@ -11,13 +11,12 @@ const Profile = () => {
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { auth } = useContext(AuthContext)
   useEffect(() => {
     handleFetchReview()
   }, [])
   const handleFetchReview = () => {
     setLoading(true)
-    reqMethod("/api/auth/me", "GET", auth?.user?.token)
+    reqMethod("/api/auth/me", "GET")
       .then((data) => {
         setUserDetails(data.user)
         setLoading(false)
@@ -28,7 +27,7 @@ const Profile = () => {
     try {
       setLoading(true)
       setError(null)
-      await reqMethod(`/api/reviews/${review._id}`, "DELETE", auth?.user?.token)
+      await reqMethod(`/api/reviews/${review._id}`, "DELETE")
       setLoading(false)
       handleFetchReview()
     } catch (error) {

@@ -12,7 +12,6 @@ const AlbumDetail = () => {
   const [album, setAlbum] = useState(null)
   const [loading, setloading] = useState(true)
   const [error, setError] = useState(null)
-  const { auth } = useContext(AuthContext)
   const { id } = useParams()
 
   useEffect(() => {
@@ -20,7 +19,7 @@ const AlbumDetail = () => {
   }, [])
 
   const handleFetchAlbum = () => {
-    reqMethod(`/api/albums/${id}`, "GET", auth?.user?.token)
+    reqMethod(`/api/albums/${id}`, "GET")
       .then((data) => {
         setAlbum(data.data)
         setloading(false)
