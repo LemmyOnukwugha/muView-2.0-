@@ -25,7 +25,11 @@ const ModalLayout = ({ title, children, onSubmit, loading }) => {
         <Button variant="secondary" onClick={handleClose} disabled={loading}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleSubmit} disabled={loading}>
+        <Button
+          variant="outline-secondary"
+          onClick={handleSubmit}
+          disabled={loading}
+        >
           {loading ? (
             <>
               <Spinner

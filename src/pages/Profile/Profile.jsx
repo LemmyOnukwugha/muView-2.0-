@@ -3,6 +3,7 @@ import { reqMethod } from "../../utilities/users-api"
 import { AuthContext } from "../../context/AuthProvider"
 import { Button, Card, Spinner } from "react-bootstrap"
 import Loading from "../../components/Loading/Loading"
+import { toast } from "react-toastify"
 
 const Profile = () => {
   const [userDetails, setUserDetails] = useState({})
@@ -14,10 +15,13 @@ const Profile = () => {
     handleFetchReview()
   }, [])
   const handleFetchReview = () => {
-    reqMethod("/api/auth/me", "GET", auth?.user?.token).then((data) => {
-      setUserDetails(data.user)
-      console.log(data)
-    })
+    setLoading(true)
+    reqMethod("/api/auth/me", "GET", auth?.user?.token)
+      .then((data) => {
+        setUserDetails(data.user)
+        setLoading(false)
+      })
+      .catch((error) => toast.error("Failed to fetch review"))
   }
   const handleDelete = async (review) => {
     try {
@@ -39,21 +43,26 @@ const Profile = () => {
       </p>
     )
   return (
-    <div className="container ">
+    <div className="container  ">
       <h2 className="mt-4">Profile Details</h2>
-      <Card className="py-2 px-4 text-start">
+      <Card className="py-2 px-4 text-start mx-auto" style={{ maxWidth: 800 }}>
         <div>Name: {userDetails?.name}</div>
         <div>Email: {userDetails?.email}</div>
         <div>Role: {userDetails?.role}</div>
       </Card>
-      <h4 className="mt-4 text-start">My Reviews</h4>
+      <h4 className="mt-4">My Reviews</h4>
       {userDetails?.reviews?.length === 0 && (
         <p>You haven't made any reviews yet</p>
       )}
       {userDetails?.reviews &&
         userDetails?.reviews?.length > 0 &&
         userDetails?.reviews?.map((review, index) => (
-          <Card key={index} className="mb-2" border="light">
+          <Card
+            key={index}
+            className="mb-2 mx-auto"
+            border="light"
+            style={{ maxWidth: 800 }}
+          >
             <Card.Header className="d-flex justify-content-between">
               <p>
                 {" "}
@@ -69,7 +78,8 @@ const Profile = () => {
                 created on: {new Date(review?.createdAt).toDateString()}
               </span>
               <Button
-                variant="danger"
+                size="sm"
+                variant="dark"
                 onClick={() => {
                   handleDelete(review)
                 }}

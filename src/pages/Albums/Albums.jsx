@@ -59,11 +59,13 @@ const Albums = () => {
   return (
     <div className="container pb-5">
       <h1 className="mt-5">All Albums</h1>
-      <Button onClick={openAlbumModal}>Add Album</Button>
+      <Button variant="outline-secondary" onClick={openAlbumModal}>
+        Add Album
+      </Button>
       <div className="row g-3 mt-3">
         {albums.map((album, index) => (
           <div
-            className="col-3"
+            className="col-12 col-sm-6 col-md-4 "
             onClick={() => handleNavigate(album._id)}
             key={index}
           >

@@ -4,7 +4,7 @@ import { Button, Card, Spinner } from "react-bootstrap"
 import { reqMethod } from "../../utilities/users-api"
 import { AuthContext } from "../../context/AuthProvider"
 
-const Reviews = ({ album }) => {
+const Reviews = ({ album, onFetchAlbum }) => {
   const { openReviewModal } = useContext(ModalContext)
 
   return (
@@ -18,13 +18,16 @@ const Reviews = ({ album }) => {
           <div className="col-6">
             {" "}
             <div className="rating">
-              <button
+              <Button
+                variant="outline-secondary"
                 onClick={() =>
-                  openReviewModal({ payload: { albumId: album._id } })
+                  openReviewModal({
+                    payload: { albumId: album._id, callback: onFetchAlbum },
+                  })
                 }
               >
                 Add Review
-              </button>
+              </Button>
             </div>
           </div>
         </div>

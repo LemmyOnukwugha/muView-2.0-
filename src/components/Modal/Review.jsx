@@ -5,6 +5,7 @@ import ModalLayout from "./Modal"
 import { ModalContext } from "../../context/ModalProvider"
 import { AuthContext } from "../../context/AuthProvider"
 import { toast } from "react-toastify"
+import { reqMethod } from "../../utilities/users-api"
 
 const AddReviewModal = () => {
   const { modalState } = useContext(ModalContext)
@@ -14,39 +15,37 @@ const AddReviewModal = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { payload } = modalState.payload
-  console.log(payload.albumId)
 
   const handleSubmit = async () => {
     setLoading(true)
     setError(null)
     try {
       setLoading(true)
-      const res = await fetch(`/api/albums/${payload.albumId}/reviews`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: "Bearer " + auth?.user.token,
-        },
-        body: JSON.stringify({
+
+      await reqMethod(
+        `/api/albums/${payload.albumId}/reviews`,
+        "POST",
+        auth?.user.token,
+        {
           description,
           rating: parseInt(rating),
-        }),
-      })
-      const data = await res.json()
+        }
+      )
+
       setDescription("")
       setRating("")
       setLoading(false)
+
       toast.success("Successfully added review")
     } catch (err) {
-      setError(err)
-
+      setError(err.status)
+      console.log(err)
       setLoading(false)
-      toast.error("Error while adding review")
+      toast.error("Not Allowed")
     }
   }
   return (
     <ModalLayout title="Add Review" onSubmit={handleSubmit} loading={loading}>
-      {error && <p className="text-danger">Error occurred, try again.</p>}
       <FloatingLabel controlId="floatingTextarea2" label="Enter review">
         <Form.Control
           as="textarea"
@@ -58,7 +57,7 @@ const AddReviewModal = () => {
       </FloatingLabel>
       <div className="mt-4">
         <Form.Select
-          aria-label="Default select example"
+          aria-label="Choose rating"
           value={rating}
           onChange={(e) => setRating(e.target.value)}
         >
