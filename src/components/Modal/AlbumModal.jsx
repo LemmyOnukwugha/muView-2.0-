@@ -25,7 +25,10 @@ const AlbumModal = () => {
   const handleSubmit = async () => {
     try {
       setLoading(true)
-      await reqMethod("/api/albums", "POST", auth?.user?.token, data)
+      await reqMethod("/api/albums", "POST", auth?.user?.token, {
+        ...data,
+        Release: parseInt(data.Release),
+      })
       setData({ Title: "", Artist: "", Release: "", Genre: "" })
       setLoading(false)
       toast.success("Success creating album")
@@ -65,7 +68,7 @@ const AlbumModal = () => {
         <Form.Group className="mb-3">
           <Form.Label>Release</Form.Label>
           <Form.Control
-            type="text"
+            type="number"
             size="sm"
             placeholder="Enter Release Date"
             onChange={handleChange}

@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form"
 import ModalLayout from "./Modal"
 import { ModalContext } from "../../context/ModalProvider"
 import { AuthContext } from "../../context/AuthProvider"
+import { toast } from "react-toastify"
 
 const AddReviewModal = () => {
   const { modalState } = useContext(ModalContext)
@@ -32,12 +33,15 @@ const AddReviewModal = () => {
         }),
       })
       const data = await res.json()
-
+      setDescription("")
+      setRating("")
       setLoading(false)
+      toast.success("Successfully added review")
     } catch (err) {
       setError(err)
-      console.log(err)
+
       setLoading(false)
+      toast.error("Error while adding review")
     }
   }
   return (
@@ -62,8 +66,8 @@ const AddReviewModal = () => {
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
-          <option value="4">3</option>
-          <option value="5">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
         </Form.Select>
       </div>
     </ModalLayout>
