@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { AuthContext } from "../../context/AuthProvider"
 import { Button, Card } from "react-bootstrap"
 import CustomPagination from "../../components/Pagination/Pagination"
 import { reqMethod } from "../../utilities/users-api"
