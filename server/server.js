@@ -2,6 +2,7 @@ const express = require("express")
 const path = require("path")
 const favicon = require("serve-favicon")
 const logger = require("morgan")
+const fileUpload = require("express-fileupload")
 const reviewRoutes = require("./routes/review")
 const albumRoutes = require("./routes/album")
 const authRoutes = require("./routes/auth")
@@ -15,8 +16,12 @@ const app = express()
 
 app.use(logger("dev"))
 app.use(express.json())
+
 // app.use(favicon(path.join(__dirname, "build", "favicon.ico")))
 app.use(express.static(path.join(__dirname, "build")))
+app.use(express.static(path.join(__dirname, "public")))
+
+app.use(fileUpload())
 
 // Put all API routes here (before the catch-all)
 app.use("/api/reviews", reviewRoutes)

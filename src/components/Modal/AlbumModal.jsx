@@ -8,25 +8,44 @@ import { toast } from "react-toastify"
 const AlbumModal = () => {
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState({
+    image: "",
     Title: "",
     Artist: "",
     Release: "",
     Genre: "",
   })
+  const formData = new FormData()
+  formData.append("image", data.image)
+  formData.append("Title", data.Title)
+  formData.append("Artist", data.Artist)
+  formData.append("Release", data.Release)
+  formData.append("Genre", data.Genre)
 
   const handleChange = (event) => {
     setData((prev) => ({
       ...prev,
-      [event.target.name]: event.target.value,
+      [event.target.name]: event?.target?.files
+        ? event?.target?.files[0]
+        : event.target.value,
     }))
   }
   const handleSubmit = async () => {
+    const token = localStorage.getItem("token")
+    console.log(data)
     try {
       setLoading(true)
-      await reqMethod("/api/albums", "POST", {
-        ...data,
-        Release: parseInt(data.Release),
+      // await reqMethod("/api/albums", "POST", {
+      //   ...data,
+      //   Release: parseInt(data.Release),
+      // })
+      const res = await fetch("/api/albums", {
+        method: "POST",
+        body: formData,
+        headers: {
+          authorization: `Bearer ${token ? token : ""}`,
+        },
       })
+      if (!res.ok) throw Error()
       setData({ Title: "", Artist: "", Release: "", Genre: "" })
       setLoading(false)
       toast.success("Success creating album")
@@ -39,6 +58,15 @@ const AlbumModal = () => {
   return (
     <ModalLayout title="Album" onSubmit={handleSubmit} loading={loading}>
       <div>
+        <Form.Group controlId="formFile" className="mb-3">
+          <Form.Label>Album Art</Form.Label>
+          <Form.Control
+            type="file"
+            size="sm"
+            onChange={handleChange}
+            name="image"
+          />
+        </Form.Group>
         <Form.Group className="mb-3">
           <Form.Label>Title</Form.Label>
           <Form.Control

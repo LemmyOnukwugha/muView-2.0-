@@ -1,6 +1,7 @@
 import { Component } from "react"
 import { AuthContext } from "../../context/AuthProvider"
 import { toast } from "react-toastify"
+import { reqMethod } from "../../utilities/users-api"
 
 export default class SignUpForm extends Component {
   state = {

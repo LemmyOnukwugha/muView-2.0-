@@ -7,6 +7,7 @@ const albumSchema = new Schema(
       required: [true, "Please enter a name for this album"],
       maxlength: [50, "Maximum length of characters is 20"],
     },
+
     Artist: {
       type: String,
       required: [true, "Please enter a name of artist"],
@@ -20,6 +21,7 @@ const albumSchema = new Schema(
       type: String,
       required: [true, "Please select a genre"],
     },
+    image: String,
     rating: { type: Number, default: 0 },
     user: {
       type: Schema.Types.ObjectId,

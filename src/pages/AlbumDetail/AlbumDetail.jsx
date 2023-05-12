@@ -7,6 +7,7 @@ import Loading from "../../components/Loading/Loading"
 import { AuthContext } from "../../context/AuthProvider"
 import { reqMethod } from "../../utilities/users-api"
 import NavBar from "../../components/NavBar/NavBar"
+import Image from "react-bootstrap/Image"
 
 const AlbumDetail = () => {
   const [album, setAlbum] = useState(null)
@@ -45,7 +46,9 @@ const AlbumDetail = () => {
         <div className="row">
           <div className="col-4">
             {" "}
-            <div className="image"></div>
+            <div className="image">
+              <Image src={`/uploads/${album?.image}`} rounded />
+            </div>
           </div>
           <div className="col-8">
             <div

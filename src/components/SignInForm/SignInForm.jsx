@@ -21,7 +21,6 @@ export default class SignInForm extends Component {
         email: this.state.email,
         password: this.state.password,
       })
-      console.log(data.token)
 
       const { handleSignIn } = this.context
       localStorage.setItem("token", data.token)

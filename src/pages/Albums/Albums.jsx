@@ -14,6 +14,7 @@ const Albums = () => {
   const [albums, setAlbums] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [user, setUser] = useState(null)
 
   const { openAlbumModal } = useContext(ModalContext)
   const [page, setPage] = useState(1)
@@ -22,6 +23,15 @@ const Albums = () => {
     handleFetch("", page)
     console.log("page changed")
   }, [page])
+
+  useEffect(() => {
+    reqMethod("/api/auth/me", "GET")
+      .then((data) => {
+        console.log(data.user)
+        setUser(data.user)
+      })
+      .catch((error) => console.log(error))
+  }, [])
 
   const handleNavigate = (id) => {
     navigate(`/album/${id}`)
@@ -65,9 +75,11 @@ const Albums = () => {
       <NavBar onSearch={handleFetch} />
       <div className="container pb-5">
         <h1 className="mt-5">All Albums</h1>
-        <Button variant="outline-secondary" onClick={openAlbumModal}>
-          Add Album
-        </Button>
+        {user?.role === "admin" && (
+          <Button variant="outline-secondary" onClick={openAlbumModal}>
+            Add Album
+          </Button>
+        )}
         <div className="row g-3 mt-3">
           {albums?.data?.length > 0 &&
             albums?.data?.map((album, index) => (
@@ -77,17 +89,19 @@ const Albums = () => {
                 key={index}
               >
                 <Card>
-                  <Card.Img variant="top" src="holder.js/100px160" />
+                  <Card.Img variant="top" src={`/uploads/${album?.image}`} />
                   <Card.Body>
                     <Card.Title>{album.Title}</Card.Title>
                     <Card.Text>Artist: {album.Artist}</Card.Text>
-                    <Button
-                      onClick={(event) => handleDelete(event, album._id)}
-                      size="sm"
-                      variant="secondary"
-                    >
-                      Delete
-                    </Button>
+                    {user?.role === "admin" && (
+                      <Button
+                        onClick={(event) => handleDelete(event, album._id)}
+                        size="sm"
+                        variant="secondary"
+                      >
+                        Delete
+                      </Button>
+                    )}
                   </Card.Body>
                   <Card.Footer>
                     <small className="text-muted">
