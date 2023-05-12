@@ -15,19 +15,22 @@ const Albums = () => {
   const [error, setError] = useState(null)
   const { auth } = useContext(AuthContext)
   const { openAlbumModal } = useContext(ModalContext)
+  const [page, setPage] = useState(1)
 
   useEffect(() => {
-    handleFetch()
-  }, [])
+    handleFetch(page)
+    console.log("page changed")
+  }, [page])
 
   const handleNavigate = (id) => {
     navigate(`/album/${id}`)
   }
-  const handleFetch = () => {
+
+  const handleFetch = (page) => {
     setError(null)
-    reqMethod("/api/albums", "GET", auth?.user?.token)
+    reqMethod(`/api/albums?page=${page}`, "GET", auth?.user?.token)
       .then((data) => {
-        setAlbums(data.data)
+        setAlbums(data)
         setLoading(false)
       })
       .catch((err) => {
@@ -63,7 +66,7 @@ const Albums = () => {
         Add Album
       </Button>
       <div className="row g-3 mt-3">
-        {albums.map((album, index) => (
+        {albums?.data?.map((album, index) => (
           <div
             className="col-12 col-sm-6 col-md-4 "
             onClick={() => handleNavigate(album._id)}
@@ -92,7 +95,11 @@ const Albums = () => {
         ))}
       </div>
       <div className=" d-flex justify-content-center align-items-center">
-        <CustomPagination />
+        <CustomPagination
+          page={page}
+          totalPages={parseInt(albums?.totalPages)}
+          setPage={setPage}
+        />
       </div>
     </div>
   )
