@@ -12,6 +12,13 @@ a music review website for music Lovers World Wide. For people that would like t
 
 # <a href="https://trello.com/invite/b/0AoEBKl1/ATTI8de9d9e4a40920a88a00fbfc8fa1e21f59407DE6/muview"> Trello<a>
 
+## Screenshots
+
+---
+
+<img width="1466" alt="Screenshot" src="img/Screenshot 2023-05-13 at 11.46.28 AM.png">
+<img width="1466" alt="Screenshot" src="img/Screenshot 2023-05-13 at 11.46.37 AM.png">
+
 ## Technologies
 
 ---
