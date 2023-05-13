@@ -1,49 +1,49 @@
-import React, { useContext, useEffect, useState } from "react"
-import { reqMethod } from "../../utilities/users-api"
-import { AuthContext } from "../../context/AuthProvider"
-import { Button, Card, Spinner } from "react-bootstrap"
-import Loading from "../../components/Loading/Loading"
-import { toast } from "react-toastify"
-import NavBar from "../../components/NavBar/NavBar"
+import React, { useContext, useEffect, useState } from "react";
+import { reqMethod } from "../../utilities/users-api";
+import { AuthContext } from "../../context/AuthProvider";
+import { Button, Card, Spinner } from "react-bootstrap";
+import Loading from "../../components/Loading/Loading";
+import { toast } from "react-toastify";
+import NavBar from "../../components/NavBar/NavBar";
 
 const Profile = () => {
-  const [userDetails, setUserDetails] = useState({})
+  const [userDetails, setUserDetails] = useState({});
 
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   useEffect(() => {
-    handleFetchReview()
-  }, [])
+    handleFetchReview();
+  }, []);
   const handleFetchReview = () => {
-    setLoading(true)
+    setLoading(true);
     reqMethod("/api/auth/me", "GET")
       .then((data) => {
-        setUserDetails(data.user)
-        setLoading(false)
+        setUserDetails(data.user);
+        setLoading(false);
       })
-      .catch((error) => toast.error("Failed to fetch review"))
-  }
+      .catch((error) => toast.error("Failed to fetch review"));
+  };
   const handleDelete = async (review) => {
     try {
-      setLoading(true)
-      setError(null)
-      await reqMethod(`/api/reviews/${review._id}`, "DELETE")
-      setLoading(false)
-      toast.success("Review deleted")
-      handleFetchReview()
+      setLoading(true);
+      setError(null);
+      await reqMethod(`/api/reviews/${review._id}`, "DELETE");
+      setLoading(false);
+      toast.success("Review deleted");
+      handleFetchReview();
     } catch (error) {
-      setLoading(false)
-      toast.error("Failed to delete review")
-      setError(error)
+      setLoading(false);
+      toast.error("Failed to delete review");
+      setError(error);
     }
-  }
-  if (loading) return <Loading />
+  };
+  if (loading) return <Loading />;
   if (error)
     return (
       <p className="d-flex justify-content-center align-items-center my-5 text-danger">
         Failed to delete review
       </p>
-    )
+    );
   return (
     <>
       <NavBar />
@@ -75,7 +75,7 @@ const Profile = () => {
                   {" "}
                   <span className="fw-bold fs-4">
                     {" "}
-                    {review?.album.Title}
+                    {review?.album?.Title}
                   </span>{" "}
                   <span className="fst-italic">by</span>{" "}
                   <span className="text-muted"> {review?.album.Artist}</span>
@@ -88,7 +88,7 @@ const Profile = () => {
                   size="sm"
                   variant="dark"
                   onClick={() => {
-                    handleDelete(review)
+                    handleDelete(review);
                   }}
                   disabled={loading}
                 >
@@ -105,7 +105,7 @@ const Profile = () => {
           ))}
       </div>
     </>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
