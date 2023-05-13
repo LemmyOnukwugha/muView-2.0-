@@ -75,7 +75,7 @@ const Profile = () => {
                   {" "}
                   <span className="fw-bold fs-4">
                     {" "}
-                    {review?.album.Title}
+                    {review?.album?.Title}
                   </span>{" "}
                   <span className="fst-italic">by</span>{" "}
                   <span className="text-muted"> {review?.album.Artist}</span>
