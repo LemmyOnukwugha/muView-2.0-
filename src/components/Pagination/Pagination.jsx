@@ -6,6 +6,7 @@ const CustomPagination = ({ page, totalPages, setPage }) => {
     <Pagination className="mt-3">
       {Array?.from(Array(totalPages)?.keys()).map((item, index) => (
         <Pagination.Item
+          key={index}
           active={index + 1 === page}
           onClick={() => {
             setPage(index + 1)

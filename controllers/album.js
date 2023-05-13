@@ -60,7 +60,7 @@ exports.addAlbum = async function (req, res, next) {
 
   image.name =
     "photo_" + uuidv4().replace(/-/gi, "") + path.parse(image.name).ext
-  const uploadPath = path.join(__dirname, "public", "uploads", image.name)
+  const uploadPath = path.join(__dirname, "..", "public", "uploads", image.name)
   image.mv(uploadPath, async function (err) {
     if (err) {
       console.log(err)
